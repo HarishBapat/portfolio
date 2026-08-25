@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #0a0c0f;
+  --color-panel: #0f1318;
+  --color-panel2: #131922;
+  --color-line: #20293344;
+  --color-stroke: #232d38;
+  --color-fog: #8d99a8;
+  --color-mist: #5c6875;
+  --color-snow: #e9edf2;
+  --color-signal: #3ce07f;
+  --color-signal-dim: #1d5c3a;
+  --color-amber: #f2b03d;
+  --color-paper: #f4f1e8;
+  --color-paper2: #ece8dc;
+  --color-inkonpaper: #1a2019;
+  --color-fogonpaper: #5b6156;
+
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+section[id] {
+  scroll-margin-top: 56px;
+}
+
+body {
+  background: var(--color-ink);
+  color: var(--color-snow);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-signal);
+  color: #06220f;
+}
+
+/* scrollbar */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: #0a0c0f; }
+::-webkit-scrollbar-thumb { background: #26313d; border-radius: 6px; border: 2px solid #0a0c0f; }
+::-webkit-scrollbar-thumb:hover { background: #3ce07f; }
+
+/* ---- blueprint grid backgrounds ---- */
+.grid-bg {
+  background-image:
+    linear-gradient(to right, rgba(141, 153, 168, 0.055) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(141, 153, 168, 0.055) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+.grid-bg-paper {
+  background-image:
+    linear-gradient(to right, rgba(26, 32, 25, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(26, 32, 25, 0.06) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+/* ---- crosshair corner ticks (blueprint registration marks) ---- */
+.tick { position: relative; }
+.tick::before, .tick::after {
+  content: "";
+  position: absolute;
+  width: 9px; height: 9px;
+  border-color: var(--tick-c, #3ce07f);
+  border-style: solid;
+  border-width: 0;
+}
+.tick::before { top: -1px; left: -1px; border-top-width: 1px; border-left-width: 1px; }
+.tick::after { bottom: -1px; right: -1px; border-bottom-width: 1px; border-right-width: 1px; }
+
+/* ---- type helpers ---- */
+.mono { font-family: var(--font-mono); }
+.text-balance { text-wrap: balance; }
+
+.outline-text {
+  color: transparent;
+  -webkit-text-stroke: 1px #33404d;
+}
+
+/* ---- pulse dot ---- */
+@keyframes dotpulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(60, 224, 127, 0.5); }
+  50% { box-shadow: 0 0 0 5px rgba(60, 224, 127, 0); }
+}
+.dot-pulse { animation: dotpulse 2.2s ease-in-out infinite; }
+
+/* ---- scanline sweep over panels ---- */
+@keyframes sweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(400%); }
+}
+.sweep::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 30%;
+  background: linear-gradient(90deg, transparent, rgba(60, 224, 127, 0.06), transparent);
+  animation: sweep 7s linear infinite;
+  pointer-events: none;
+}
+
+/* ---- link underline ---- */
+.u-link {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.u-link:hover { background-size: 100% 1px; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .sweep::after, .dot-pulse { animation: none; }
+}
